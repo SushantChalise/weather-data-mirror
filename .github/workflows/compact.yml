@@ -1,0 +1,51 @@
+name: Compact data-mirror branch
+
+# Monthly orphan-rebase of the `data-mirror` branch to keep the working
+# tree under jsDelivr's 150 MB recommendation and avoid unbounded
+# git-history growth from continuous cron pushes.
+#
+# Drops history (force-push); keeps the live working tree intact.
+
+on:
+  schedule:
+    - cron: "0 6 1 * *"  # 06:00 UTC, 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: compact-data-mirror
+  cancel-in-progress: false
+
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout data-mirror branch
+        uses: actions/checkout@v4
+        with:
+          ref: data-mirror
+          fetch-depth: 1
+          path: live
+
+      - name: Orphan-rebase
+        run: |
+          set -euo pipefail
+          cd live
+          git config user.name "compact-bot"
+          git config user.email "noreply@github.com"
+
+          git checkout --orphan data-mirror-rotated
+          git add -A
+          git commit -m "compact: monthly orphan-rebase ($(date -u +%Y-%m))"
+          git branch -M data-mirror-rotated data-mirror
+          git push --force origin data-mirror
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "Compaction complete. New data-mirror branch is single-commit."
+          echo "Tiles cached at jsDelivr commit-pinned URLs are unaffected."
+          echo "End-user visible URL (manifest) needs purge to pick up the new SHA."
