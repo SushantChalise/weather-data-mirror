@@ -1,0 +1,10 @@
+{
+  "frame_time_utc": "2026-07-10T15:00:00Z",
+  "commit_sha": "d483484c12c411b5293577a805a1668c7854b8bd",
+  "tile_template": "https://cdn.jsdelivr.net/gh/SushantChalise/weather-data-mirror@d483484c12c411b5293577a805a1668c7854b8bd/himawari/latest/tiles/{z}/{x}/{y}.webp",
+  "preview": "https://cdn.jsdelivr.net/gh/SushantChalise/weather-data-mirror@d483484c12c411b5293577a805a1668c7854b8bd/himawari/latest/preview.webp",
+  "generated_at": "2026-07-10T15:13:21.168449Z",
+  "source": "Himawari-9 B13",
+  "frame_sha": "a3391610afb8657fa4c3a9225cc243ab0d6d17684eef0238c1452c06ae8b41b2",
+  "previous_manifest": "https://cdn.jsdelivr.net/gh/SushantChalise/weather-data-mirror@d096707eb19d0bd8b023b38783bb3edf7dcab881/himawari/latest/manifest.json"
+}
